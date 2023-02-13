@@ -19,18 +19,87 @@ public abstract class BasicGameApp implements Runnable, KeyListener {
 
     public BufferStrategy bufferStrategy;
 
-    public Player1 player1;
-    public Player2 player2;
+    public Player1 play1;
+    public Player2 play2;
     public Rocks rock;
+
+    public Image play1pic;
+    public Image play2pic;
+    public Image rockpic;
+
 
     public BasicGameApp() {
 
         setUpGraphics();
 
+        play1pic = Toolkit.getDefaultToolkit().getImage("fireboy1.png");
+        play1 = new Player1("play1", 500, 350);
+
+        play2pic = Toolkit.getDefaultToolkit().getImage("watergirl1.png");
+        play2 = new Player2("play2", 750, 350);
+
+        rockpic = Toolkit.getDefaultToolkit().getImage("rock1.png");
+        rock = new Rocks("rock", 100, 350);
+
     }
 
     public static void main(String[] args) {
         BasicGameApp ex = new BasicGameApp() {
+
+            public void keyPressed(KeyEvent event) {
+                //This method will do something whenever any key is pressed down.
+                //Put if( ) statements here
+                char key = event.getKeyChar();     //gets the character of the key pressed
+                int keyCode = event.getKeyCode();  //gets the keyCode (an integer) of the key pressed
+                System.out.println("Key Pressed: " + key + "  Code: " + keyCode);
+
+                if (keyCode == 39) {
+                    play1.right = true;
+
+                }
+                if (keyCode == 40) {
+                    play1.down = true;
+                }
+                if (keyCode == 37) {
+                    play1.left = true;
+
+                }
+                if (keyCode == 38) {
+                    play1.up = true;
+                }
+                if (keyCode == 32) {
+
+                }
+
+
+            }//keyPressed()
+
+            public void keyReleased(KeyEvent event) {
+                char key = event.getKeyChar();
+                int keyCode = event.getKeyCode();
+                //This method will do something when a key is released
+                if (keyCode == 39) {
+                    play1.right = false;
+
+                }
+                if (keyCode == 40) {
+                    play1.down = false;
+                }
+                if (keyCode == 37) {
+                    play1.left = false;
+
+                }
+                if (keyCode == 38) {
+                    play1.up = false;
+                }
+                if (keyCode == 32) {
+                    play1.dy = -15;
+                }
+
+            }
+            public void keyTyped(KeyEvent event) {
+
+            }
 
             public void run() {
                 while (true) {
@@ -43,20 +112,6 @@ public abstract class BasicGameApp implements Runnable, KeyListener {
 
             }
 
-            public void keyTyped(KeyEvent e) {
-
-            }
-            public void keyPressed(KeyEvent event) {
-                char key = event.getKeyChar();
-                int keyCode = event.getKeyCode();
-                System.out.println("Key Pressed: " + key + "  Code: " + keyCode);
-            }
-
-            public void keyReleased(KeyEvent event) {
-                char key = event.getKeyChar();
-                int keyCode = event.getKeyCode();
-
-            }
         };
         new Thread(ex).start();
     }
@@ -69,7 +124,7 @@ public abstract class BasicGameApp implements Runnable, KeyListener {
     }
 
     public void moveThings() {
-
+    rock.wrap();
     }
 
     public void crash() {
@@ -111,6 +166,10 @@ public abstract class BasicGameApp implements Runnable, KeyListener {
     void render() {
         Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
         g.clearRect(0, 0, WIDTH, HEIGHT);
+
+        g.drawImage(play1pic, play1.xpos, play1.ypos, play1.width, play1.height, null);
+        g.drawImage(play2pic, play2.xpos, play2.ypos, play2.width, play2.height, null);
+        g.drawImage(rockpic, rock.xpos,rock.ypos, rock.width, rock.height, null);
 
         g.dispose();
         bufferStrategy.show();

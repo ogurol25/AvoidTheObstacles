@@ -20,10 +20,31 @@ public class Rocks {
         ypos = pYpos;
         dx = (int) (Math.random() * 2 + 1);
         dy = (int) (Math.random() * 2 + 1);
-        width = 100;
-        height = 100;
+        width = 30;
+        height = 30;
         isAlive = true;
 
+
+    }
+
+     public void wrap() {
+       xpos = xpos + dx;
+     ypos = ypos + dy;
+
+    if (xpos >=1000 && dx > 0){
+      xpos = -width;
+
+    }
+    if (xpos <=  -width && dx < 0){
+      xpos = 1000;
+
+    }
+    if (ypos >= 700 - height || ypos<= 0){
+      dy = -dy;
+
+    }
+
+//    rec = new Rectangle(xpos, ypos, width, height);
 
     }
 }
