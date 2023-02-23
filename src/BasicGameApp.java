@@ -22,10 +22,20 @@ public abstract class BasicGameApp implements Runnable, KeyListener {
     public Player1 play1;
     public Player2 play2;
     public Rocks rock;
+    public rock1 rock1;
+    public rock2 rock2;
+    public rock3 rock3;
 
     public Image play1pic;
     public Image play2pic;
     public Image rockpic;
+    public Image rock1pic;
+    public Image rock2pic;
+    public Image rock3pic;
+    public Image blueportal;
+    public Image redportal;
+    public boolean gameStart;
+
 
 
     public BasicGameApp() {
@@ -41,6 +51,19 @@ public abstract class BasicGameApp implements Runnable, KeyListener {
         rockpic = Toolkit.getDefaultToolkit().getImage("rock1.png");
         rock = new Rocks("rock", 100, 350);
 
+        rock1pic = Toolkit.getDefaultToolkit().getImage("rock1.png");
+        rock1 = new rock1("rock", 100, 650);
+
+        rock2pic = Toolkit.getDefaultToolkit().getImage("rock1.png");
+        rock2 = new rock2("rock", 250, 200);
+
+        rock3pic = Toolkit.getDefaultToolkit().getImage("rock1.png");
+        rock3= new rock3("rock", 300, 150);
+
+        blueportal = Toolkit.getDefaultToolkit().getImage("blueportal.png");
+
+        redportal = Toolkit.getDefaultToolkit().getImage("redportal.png");
+
     }
 
     public static void main(String[] args) {
@@ -52,6 +75,10 @@ public abstract class BasicGameApp implements Runnable, KeyListener {
                 char key = event.getKeyChar();     //gets the character of the key pressed
                 int keyCode = event.getKeyCode();  //gets the keyCode (an integer) of the key pressed
                 System.out.println("Key Pressed: " + key + "  Code: " + keyCode);
+
+                if (keyCode == 10 && gameStart == false){ //enter/return key to start the game
+                    gameStart = true;
+                }
 
                 if (keyCode == 39) {
                     play1.right = true;
@@ -66,6 +93,21 @@ public abstract class BasicGameApp implements Runnable, KeyListener {
                 }
                 if (keyCode == 38) {
                     play1.up = true;
+                }
+
+                if (keyCode == 68) {
+                    play2.right = true;
+
+                }
+                if (keyCode == 83) {
+                    play2.down = true;
+                }
+                if (keyCode == 65) {
+                    play2.left = true;
+
+                }
+                if (keyCode == 87) {
+                    play2.up = true;
                 }
                 if (keyCode == 32) {
 
@@ -96,6 +138,21 @@ public abstract class BasicGameApp implements Runnable, KeyListener {
                     play1.dy = -15;
                 }
 
+                if (keyCode == 68) {
+                    play2.right = false;
+
+                }
+                if (keyCode == 83) {
+                    play2.down = false;
+                }
+                if (keyCode == 65) {
+                    play2.left = false;
+
+                }
+                if (keyCode == 87) {
+                    play2.up = false;
+                }
+
             }
             public void keyTyped(KeyEvent event) {
 
@@ -103,9 +160,12 @@ public abstract class BasicGameApp implements Runnable, KeyListener {
 
             public void run() {
                 while (true) {
+                    if (gameStart == true){
+                        moveThings();
+                        checkIntersections();
+                    }
+
                     crash();
-                    moveThings();
-                    checkIntersections();
                     render();
                     pause(5);
                 }
@@ -125,9 +185,31 @@ public abstract class BasicGameApp implements Runnable, KeyListener {
 
     public void moveThings() {
     rock.wrap();
+    play1.move();
+    play2.move();
     }
 
     public void crash() {
+//        if (sponge.rec.intersects(ball.topHitBox) && IsTopCrashing == false){
+//            sponge.dy=-sponge.dy;
+//            ball.dy=-ball.dy;
+//            IsTopCrashing = true;
+//
+//        }
+//        if(!sponge.rec.intersects(ball.topHitBox)){
+//            IsTopCrashing = false;
+//        }
+//        if (sponge.rec.intersects(ball.bottomHitBox) && IsBottomCrashing == false){
+//            sponge.dy=-sponge.dy;
+//            ball.dy=-ball.dy;
+//            IsBottomCrashing = true;
+//
+//        }
+//        if(!sponge.rec.intersects(ball.bottomHitBox)){
+//            IsBottomCrashing = false;
+//        }
+
+
 
     }
 
@@ -166,17 +248,22 @@ public abstract class BasicGameApp implements Runnable, KeyListener {
     void render() {
         Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
         g.clearRect(0, 0, WIDTH, HEIGHT);
+        if (gameStart == false) {
+            g.setColor(Color.green);
+            g.fillRect(0, 0, WIDTH, HEIGHT);
+            g.setColor(Color.white);
+            g.drawString("Press enter to start", 450, 350);
+        } else {
 
-        g.drawImage(play1pic, play1.xpos, play1.ypos, play1.width, play1.height, null);
-        g.drawImage(play2pic, play2.xpos, play2.ypos, play2.width, play2.height, null);
-        g.drawImage(rockpic, rock.xpos,rock.ypos, rock.width, rock.height, null);
+            g.drawImage(play1pic, play1.xpos, play1.ypos, play1.width, play1.height, null);
+            g.drawImage(play2pic, play2.xpos, play2.ypos, play2.width, play2.height, null);
+            g.drawImage(rockpic, rock.xpos, rock.ypos, rock.width, rock.height, null);
+            g.drawImage(blueportal, 0, 0, 70, 70, null);
+            g.drawImage(redportal, 0, 600, 90, 75, null);
+        }
 
-        g.dispose();
-        bufferStrategy.show();
+            g.dispose();
+            bufferStrategy.show();
+
     }
-
-
-
-
-
 }
