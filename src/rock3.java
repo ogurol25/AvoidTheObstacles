@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class rock3 {
 
     public String name;
@@ -12,6 +14,7 @@ public class rock3 {
     public boolean down;
     public boolean up;
     public boolean left;
+    public Rectangle rec;
 
     public rock3(String pName, int pXpos, int pYpos) {
         name = pName;

@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class Player2 {
 
     public String name;
@@ -12,6 +14,7 @@ public class Player2 {
     public boolean down;
     public boolean up;
     public boolean left;
+    public Rectangle rec;
 
     public Player2(String pName, int pXpos, int pYpos) {
         name = pName;
@@ -22,7 +25,7 @@ public class Player2 {
         width = 100;
         height = 100;
         isAlive = true;
-
+        rec = new Rectangle(xpos, ypos, width, height);
 
     }
 
@@ -61,7 +64,7 @@ public class Player2 {
         if (ypos<0){
             ypos=0;
         }
-
+        rec = new Rectangle(xpos, ypos, width, height);
 
 
     }

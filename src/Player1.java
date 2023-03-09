@@ -14,6 +14,7 @@ public class Player1<right> {
     public boolean down;
     public boolean up;
     public boolean left;
+    public Rectangle rec;
 
     public Player1(String pName, int pXpos, int pYpos) {
         name = pName;
@@ -24,7 +25,7 @@ public class Player1<right> {
         width = 100;
         height = 100;
         isAlive = true;
-
+        rec = new Rectangle(xpos, ypos, width, height);
 
     }
     public void move() {
@@ -62,8 +63,8 @@ public class Player1<right> {
         if (ypos<350){
             ypos=350;
         }
-
-
-    }
+        rec = new Rectangle(xpos, ypos, width, height);
 
     }
+
+}
